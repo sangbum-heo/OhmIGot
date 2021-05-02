@@ -13,54 +13,51 @@
         android:id="@+id/text4band"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="4-band"
+        android:text="4-band : 0Ω (±5%)"
         android:textSize="30sp"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=" : 0Ω"
-        android:textSize="30sp"
-        app:layout_constraintStart_toEndOf="@+id/text4band"/>
-
     <Button
         android:id="@+id/button1"
-        android:layout_width="56sp"
+        android:layout_width="60sp"
         android:layout_height="wrap_content"
         android:text="C 1"
+        android:textSize="11sp"
         app:layout_constraintTop_toBottomOf="@+id/text4band"
-        android:layout_marginHorizontal="9sp"
+        android:layout_marginHorizontal="5sp"
         />
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="56sp"
+        android:layout_width="60sp"
         android:layout_height="wrap_content"
         android:text="C 2"
+        android:textSize="11sp"
         app:layout_constraintTop_toBottomOf="@+id/text4band"
         app:layout_constraintStart_toEndOf="@+id/button1"
-        android:layout_marginHorizontal="9sp"
+        android:layout_marginHorizontal="5sp"
         />
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="56sp"
+        android:layout_width="60sp"
         android:layout_height="wrap_content"
         android:text="C 3"
+        android:textSize="11sp"
         app:layout_constraintTop_toBottomOf="@+id/text4band"
         app:layout_constraintStart_toEndOf="@+id/button2"
-        android:layout_marginHorizontal="9sp"
+        android:layout_marginHorizontal="5sp"
         />
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="56sp"
+        android:layout_width="60sp"
         android:layout_height="wrap_content"
         android:text="C 4"
+        android:textSize="11sp"
         app:layout_constraintTop_toBottomOf="@+id/text4band"
         app:layout_constraintStart_toEndOf="@+id/button3"
-        android:layout_marginHorizontal="9sp"
+        android:layout_marginHorizontal="5sp"
         />
 
 

@@ -15,8 +15,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Arrays;
+
 public class MainActivity extends AppCompatActivity {
+
     String clickedItem;
+
+    double[] values4band = new double[4];
+    double[] values5band = new double[5];
+    double[] values6band = new double[6];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,29 +31,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // 4-band buttons
-        Button[] btn = new Button[4];
+        Button[] btn4band = new Button[4];
 
         for(int i = 0; i < 4; i ++){
-            btn[i] = findViewById(R.id.button1 + i);
+            btn4band[i] = findViewById(R.id.button1 + i);
 
-            // 처음으로 유용하게 쓴 final 변수
             final int I = i;
             final int LS_NUM;
             if (i == 3) LS_NUM = 2;
             else if (i == 2) LS_NUM = 1;
             else LS_NUM = 0;
 
-            btn[i].setOnClickListener(new View.OnClickListener() {
+            btn4band[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    show(LS_NUM, btn[I]);
-
+                    show(4,LS_NUM, btn4band, I);
                 }
             });
         }
     }
 
-    void show(int listNumber,Button btn)
+    void show(int bandNum, int listNumber,Button[] btn, final int I)
     {
         TextView text4band = findViewById(R.id.text4band);
 
@@ -67,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         double[][] valueList = {valueList0, valueList1, valueList2, valueList3};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
         if (listNumber == 0) builder.setTitle("Select Color 0 ~ 9");
         else if (listNumber == 1) builder.setTitle("Select Color 10^n");
         else if (listNumber == 2) builder.setTitle("Select Color ±n%");
@@ -76,11 +82,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 clickedItem = colorList[listNumber][which];
-                btn.setText(clickedItem);
+                btn[I].setText(clickedItem);
 
-                // TODO !!!!!!!!!!!!!!!! valueList 값으로 계산 ㄱ
-                String result = String.format("4-band : %sΩ (±%s%%)","ASD","ZXC");
-                text4band.setText(result);
+                double value = valueList[listNumber][which];
+                setValues4band(I, value);
+
+                String text = String.format("4-band : %sΩ ┃ ±%s%%",get4bandValues());
+                text4band.setText(text);
             }
         });
 
@@ -93,6 +101,38 @@ public class MainActivity extends AppCompatActivity {
 
         builder.show();
 
+    }
+
+    String[] get4bandValues() {
+        double valueNumber = values4band[0] * 10 + values4band[1];
+        double valueSquared = values4band[2];
+        double valueRange = values4band[3];
+
+        String calcString = null;
+        double calcValue = valueNumber * Math.pow(10,valueSquared);
+
+        if(calcValue >= 1000000000) {
+            calcString = String.format("%.1fB",calcValue / 1000000000);
+        }
+        else if(calcValue >= 1000000) {
+            calcString = String.format("%.1fM",calcValue / 1000000);
+        }
+        else if(calcValue >= 1000) {
+            calcString = String.format("%.1fK",calcValue / 1000);
+        }
+        else {
+            calcString = Double.toString(calcValue);
+        }
+
+        String valueRangeS = Double.toString(valueRange);
+        valueRangeS = valueRangeS.replaceAll("\\.?0+$", "");
+
+        String[] result = {calcString, valueRangeS};
+        return result;
+    }
+
+    void setValues4band(int i, double value){
+        values4band[i] = value;
     }
 
 }

@@ -13,13 +13,13 @@
         android:id="@+id/text4band"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="4-band : 0Ω (±5%)"
-        android:textSize="30sp"
+        android:text="4-band : 0Ω ┃ ±0%"
+        android:textSize="25sp"
         />
 
     <Button
         android:id="@+id/button1"
-        android:layout_width="60sp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:text="C 1"
         android:textSize="11sp"
@@ -29,7 +29,7 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="60sp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:text="C 2"
         android:textSize="11sp"
@@ -40,7 +40,7 @@
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="60sp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:text="C 3"
         android:textSize="11sp"
@@ -51,7 +51,7 @@
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="60sp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:text="C 4"
         android:textSize="11sp"

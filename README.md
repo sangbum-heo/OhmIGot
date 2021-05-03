@@ -1,0 +1,1 @@
+textSize : sp, other : dp?

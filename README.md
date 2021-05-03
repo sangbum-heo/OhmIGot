@@ -1,2 +1,1 @@
-textSize : sp
-other : dp?
+textSize : sp, other : dp?

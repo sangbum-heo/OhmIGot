@@ -4,22 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.net.sip.SipAudioCall;
-import android.net.sip.SipSession;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
-    String clickedItem;
+    String clickedColor;
 
     double[] values4band = new double[4];
     double[] values5band = new double[5];
@@ -34,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         Button[] btn4band = new Button[4];
 
         for(int i = 0; i < 4; i ++){
-            btn4band[i] = findViewById(R.id.button1 + i);
+            btn4band[i] = findViewById(R.id.button4_1 + i);
 
             final int I = i;
             final int LS_NUM;
@@ -49,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
+        // TODO make 5-band buttons !
+
+
     }
 
     void show(int bandNum, int listNumber,Button[] btn, final int I)
@@ -81,13 +78,14 @@ public class MainActivity extends AppCompatActivity {
         builder.setItems(colorList[listNumber], new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                clickedItem = colorList[listNumber][which];
-                btn[I].setText(clickedItem);
+                clickedColor = colorList[listNumber][which];
+                btn[I].setText(clickedColor);
+                buttonColorChange(btn[I],clickedColor);
 
                 double value = valueList[listNumber][which];
                 setValues4band(I, value);
 
-                String text = String.format("4-band : %sΩ ┃ ±%s%%",get4bandValues());
+                String text = String.format("4-band : %sΩ ┃ ±%s%%", (Object[]) get4bandValues());
                 text4band.setText(text);
             }
         });
@@ -129,6 +127,28 @@ public class MainActivity extends AppCompatActivity {
 
         String[] result = {calcString, valueRangeS};
         return result;
+    }
+
+    void buttonColorChange(Button btn, String color){
+        btn.setTextColor(Color.WHITE);
+        if (color == "black") btn.setBackgroundColor(Color.parseColor("#000000"));
+        else if(color == "brown") btn.setBackgroundColor(Color.parseColor("#8B4513"));
+        else if(color == "red") btn.setBackgroundColor(Color.parseColor("#FF0000"));
+        else if(color == "orange") btn.setBackgroundColor(Color.parseColor("#FFA500"));
+        else if(color == "green") btn.setBackgroundColor(Color.parseColor("#00BB00"));
+        else if(color == "blue") btn.setBackgroundColor(Color.parseColor("#0000BB"));
+        else if(color == "purple") btn.setBackgroundColor(Color.parseColor("#8282FF"));
+        else if(color == "gray") btn.setBackgroundColor(Color.parseColor("#787878"));
+        else if(color == "gold") btn.setBackgroundColor(Color.parseColor("#FFD700"));
+        else if(color == "silver") btn.setBackgroundColor(Color.parseColor("#C0C0C0"));
+        else if(color == "yellow"){
+            btn.setBackgroundColor(Color.parseColor("#FFF000"));
+            btn.setTextColor(Color.BLACK);
+        }
+        else{ // none and white
+            btn.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            btn.setTextColor(Color.BLACK);
+        }
     }
 
     void setValues4band(int i, double value){

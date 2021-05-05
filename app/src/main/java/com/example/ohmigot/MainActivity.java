@@ -38,19 +38,61 @@ public class MainActivity extends AppCompatActivity {
             btn4band[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    show(4,LS_NUM, btn4band, I);
+                    show(4, LS_NUM, btn4band, I);
                 }
             });
         }
 
-        // TODO make 5-band buttons !
+        // 5-band buttons
+        Button[] btn5band = new Button[5];
 
+        for(int i = 0; i < 5; i ++){
+            btn5band[i] = findViewById(R.id.button5_1 + i);
+
+            final int I = i;
+            final int LS_NUM;
+            if (i == 4) LS_NUM = 2;
+            else if (i == 3) LS_NUM = 1;
+            else LS_NUM = 0;
+
+            btn5band[i].setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+                    show(5, LS_NUM, btn5band, I);
+                }
+            });
+        }
+
+        // 6-band buttons
+        Button[] btn6band = new Button[6];
+
+        for(int i = 0; i < 6; i ++){
+            btn6band[i] = findViewById(R.id.button6_1 + i);
+
+            final int I = i;
+            final int LS_NUM;
+            if (i == 5) LS_NUM = 3;
+            else if (i == 4) LS_NUM = 2;
+            else if (i == 3) LS_NUM = 1;
+            else LS_NUM = 0;
+
+            btn6band[i].setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+                    show(6, LS_NUM, btn6band, I);
+                }
+            });
+        }
 
     }
 
     void show(int bandNum, int listNumber,Button[] btn, final int I)
     {
         TextView text4band = findViewById(R.id.text4band);
+        TextView text5band = findViewById(R.id.text5band);
+        TextView text6band = findViewById(R.id.text6band);
 
         // 숫자 0 ~ 9
         String[] colorList0 = {"black","brown","red","orange","yellow","green","blue","purple","gray","white"};
@@ -83,10 +125,23 @@ public class MainActivity extends AppCompatActivity {
                 buttonColorChange(btn[I],clickedColor);
 
                 double value = valueList[listNumber][which];
-                setValues4band(I, value);
 
-                String text = String.format("4-band : %sΩ ┃ ±%s%%", (Object[]) get4bandValues());
-                text4band.setText(text);
+                if(bandNum == 4){
+                    setValues4band(I, value);
+                    String text = String.format("4-band : %sΩ ┃ ±%s%%", (Object[]) get4bandValues());
+                    text4band.setText(text);
+                }
+                else if(bandNum == 5){
+                    setValues5band(I, value);
+                    String text = String.format("5-band : %sΩ ┃ ±%s%%", (Object[]) get5bandValues());
+                    text5band.setText(text);
+                }
+                else if(bandNum == 6){
+                    setValues6band(I, value);
+                    String text = String.format("6-band : %sΩ ┃ ±%s%% ┃ %s ppm", (Object[]) get6bandValues());
+                    text6band.setText(text);
+                }
+
             }
         });
 
@@ -119,6 +174,8 @@ public class MainActivity extends AppCompatActivity {
             calcString = String.format("%.1fK",calcValue / 1000);
         }
         else {
+            // double 형 소수점 계산 오차 때문에 반올림 처리
+            calcValue = (double)Math.round(calcValue*100)/100;
             calcString = Double.toString(calcValue);
         }
 
@@ -126,6 +183,69 @@ public class MainActivity extends AppCompatActivity {
         valueRangeS = valueRangeS.replaceAll("\\.?0+$", "");
 
         String[] result = {calcString, valueRangeS};
+        return result;
+    }
+
+    String[] get5bandValues() {
+        double valueNumber = values5band[0] * 100 + values5band[1] * 10 + values5band[2];
+        double valueSquared = values5band[3];
+        double valueRange = values5band[4];
+
+        String calcString = null;
+        double calcValue = valueNumber * Math.pow(10,valueSquared);
+
+        if(calcValue >= 1000000000) {
+            calcString = String.format("%.1fB",calcValue / 1000000000);
+        }
+        else if(calcValue >= 1000000) {
+            calcString = String.format("%.1fM",calcValue / 1000000);
+        }
+        else if(calcValue >= 1000) {
+            calcString = String.format("%.1fK",calcValue / 1000);
+        }
+        else {
+            // double 형 소수점 계산 오차 때문에 반올림 처리
+            calcValue = (double)Math.round(calcValue*100)/100;
+            calcString = Double.toString(calcValue);
+        }
+
+        String valueRangeS = Double.toString(valueRange);
+        valueRangeS = valueRangeS.replaceAll("\\.?0+$", "");
+
+        String[] result = {calcString, valueRangeS};
+        return result;
+    }
+
+    String[] get6bandValues() {
+        double valueNumber = values6band[0] * 100 + values6band[1] * 10 + values6band[2];
+        double valueSquared = values6band[3];
+        double valueRange = values6band[4];
+        double valuePpm = values6band[5];
+
+        String calcString = null;
+        double calcValue = valueNumber * Math.pow(10,valueSquared);
+
+        if(calcValue >= 1000000000) {
+            calcString = String.format("%.1fB",calcValue / 1000000000);
+        }
+        else if(calcValue >= 1000000) {
+            calcString = String.format("%.1fM",calcValue / 1000000);
+        }
+        else if(calcValue >= 1000) {
+            calcString = String.format("%.1fK",calcValue / 1000);
+        }
+        else {
+            // double 형 소수점 계산 오차 때문에 반올림 처리
+            calcValue = (double)Math.round(calcValue*100)/100;
+            calcString = Double.toString(calcValue);
+        }
+
+        String valueRangeS = Double.toString(valueRange);
+        valueRangeS = valueRangeS.replaceAll("\\.?0+$", "");
+
+        String valuePpmS = Double.toString(valuePpm);
+
+        String[] result = {calcString, valueRangeS, valuePpmS};
         return result;
     }
 
@@ -154,5 +274,15 @@ public class MainActivity extends AppCompatActivity {
     void setValues4band(int i, double value){
         values4band[i] = value;
     }
+
+    void setValues5band(int i, double value){
+        values5band[i] = value;
+    }
+
+    void setValues6band(int i, double value){
+        values6band[i] = value;
+    }
+
+
 
 }
